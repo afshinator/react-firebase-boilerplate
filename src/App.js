@@ -2,7 +2,23 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import { firestore } from './firebase'
+
 function App() {
+  React.useEffect( ()=> {
+    const posts = firestore.collection('posts')
+      .get()
+      .then( (snap)=>{
+        snap.forEach(doc => {
+          const id = doc.id
+          const data = doc.data()
+
+          console.group({id, data})
+        })
+      })
+  }, [])
+
+
   return (
     <div className="App">
       <header className="App-header">

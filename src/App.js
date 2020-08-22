@@ -4,9 +4,11 @@ import "./App.css";
 import { firestore } from "./firebase";
 import { collectIdsAndDocs } from './utils/misc';
 import Posts from "./components/Posts";
+import Authentication from "./components/Authentication";
 
 function App() {
   const [posts, setPosts] = React.useState([])
+  const [user, setUser] = React.useState(null)
   const unsubscribe = React.useRef(null)
 
   // const handleCreate = post => {
@@ -37,21 +39,11 @@ function App() {
 
   console.log(posts)
   return (
-    <div className="App">
+    <div className="Application">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
+      <Authentication user={user} />
       <Posts posts={posts} />
     </div>
   );

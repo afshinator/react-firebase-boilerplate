@@ -12,6 +12,11 @@ code {
     monospace;
 }
 
+.Posts {
+	max-width: 512px;
+	margin: 0 auto;
+}
+
 
 html,
 *,

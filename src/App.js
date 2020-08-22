@@ -12,14 +12,6 @@ function App() {
   const unsubscribeFromFirestore = React.useRef(null)
   const unsubscribeFromAuth = React.useRef(null)
 
-  // const handleCreate = post => {
-  //   firestore.collection('posts').add(post)
-  // };
-
-  // const handleRemove =  id => {
-  //   firestore.doc(`posts/${id}`).delete()
-  // }
-
   React.useEffect(() => {
     // firestore
     //   .collection("posts")
@@ -40,6 +32,7 @@ function App() {
 
   useEffect(()=>{
     unsubscribeFromAuth.current = auth.onAuthStateChanged(user => {
+      console.log('App.js auth state changed.', user)
       setUser(user)
     })
     return unsubscribeFromAuth.current

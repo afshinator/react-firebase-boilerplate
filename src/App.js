@@ -7,31 +7,32 @@ import Posts from "./components/Posts";
 
 function App() {
   const [posts, setPosts] = React.useState([])
+  const unsubscribe = React.useRef(null)
 
-  const handleCreate = async post => {
-    const docRef = await firestore.collection('posts').add(post)
-    const doc = await docRef.get()
-    const newPost = collectIdsAndDocs(doc)
-  
-    setPosts([newPost, ...posts]);
-  };
+  // const handleCreate = post => {
+  //   firestore.collection('posts').add(post)
+  // };
 
-  const handleRemove = async id => {
-    const allPosts = posts;
-    await firestore.doc(`posts/${id}`).delete()
-    const p = allPosts.filter(po => po.id !== id)
-    setPosts(p)
-  }
+  // const handleRemove =  id => {
+  //   firestore.doc(`posts/${id}`).delete()
+  // }
 
   React.useEffect(() => {
-    firestore
-      .collection("posts")
-      .get()
-      .then((snapshot) => {
+    // firestore
+    //   .collection("posts")
+    //   .get()
+    //   .then((snapshot) => {
+    //     const p = snapshot.docs.map(collectIdsAndDocs);
+    //     setPosts(p)
+
+    //   });
+    unsubscribe.current = firestore.collection('posts')
+      .onSnapshot(snapshot => {
         const p = snapshot.docs.map(collectIdsAndDocs);
         setPosts(p)
-
-      });
+      })
+    
+    return unsubscribe.current
   }, []);
 
   console.log(posts)
@@ -51,7 +52,7 @@ function App() {
           Learn React
         </a>
       </header>
-      <Posts posts={posts} onCreate={handleCreate} onRemove={handleRemove}/>
+      <Posts posts={posts} />
     </div>
   );
 }

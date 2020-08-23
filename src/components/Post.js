@@ -3,8 +3,11 @@ import { firestore } from '../firebase';
 
 // import dayjs from 'dayjs'
 
-const Post = ({ id,title, content, user, createdAt, stars, comments }) => {
+const Post = (props) => {
+  // console.log('props ', props)
+  const { id, title, content, user, createdAt, stars, comments } = props
   const postRef = firestore.doc(`posts/${id}`)
+
   const remove = () => postRef.delete()
   const star = () => postRef.update({stars: stars + 1})
   return (

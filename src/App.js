@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import { firestore, auth } from "./firebase";
+import { firestore, auth, createUserProfileDocument } from "./firebase";
 import { collectIdsAndDocs } from './utils/misc';
 import Posts from "./components/Posts";
 import Authentication from "./components/Authentication";
@@ -31,7 +31,8 @@ function App() {
   }, []);
 
   useEffect(()=>{
-    unsubscribeFromAuth.current = auth.onAuthStateChanged(user => {
+    unsubscribeFromAuth.current = auth.onAuthStateChanged(async userAuth => {
+      const user = await createUserProfileDocument(userAuth)
       console.log('App.js auth state changed.', user)
       setUser(user)
     })

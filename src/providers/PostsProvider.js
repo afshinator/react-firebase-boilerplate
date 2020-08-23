@@ -7,7 +7,7 @@ export const PostsContext = createContext();
 const PostsProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
   const unsubscribeFromFirestore = useRef(null);
-  const unsubscribeFromAuth = useRef(null);
+
 
   useEffect(() => {
     unsubscribeFromFirestore.current = firestore

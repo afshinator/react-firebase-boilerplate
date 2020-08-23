@@ -1,15 +1,21 @@
-import React from 'react';
-import { firestore } from '../firebase';
-
+import React, { useContext } from "react";
+import { firestore } from "../firebase";
 // import dayjs from 'dayjs'
+import { UserContext } from "./../providers/UserProvider";
+
+const belongsToCurrentUser = (currentUser, postAuthor) => {
+  if (!currentUser) return false;
+  return currentUser.uid === postAuthor.uid;
+};
 
 const Post = (props) => {
   // console.log('props ', props)
-  const { id, title, content, user, createdAt, stars, comments } = props
-  const postRef = firestore.doc(`posts/${id}`)
+  const currentUser = useContext(UserContext);
+  const { id, title, content, user, createdAt, stars, comments } = props;
+  const postRef = firestore.doc(`posts/${id}`);
 
-  const remove = () => postRef.delete()
-  const star = () => postRef.update({stars: stars + 1})
+  const remove = () => postRef.delete();
+  const star = () => postRef.update({ stars: stars + 1 });
   return (
     <article className="Post">
       <div className="Post--content">
@@ -34,8 +40,14 @@ const Post = (props) => {
           {/* <p>Date({createdAt})</p> */}
         </div>
         <div>
-          <button className="star" onClick={star}>Star</button>
-          <button className="delete" onClick={remove}>Delete</button>
+          <button className="star" onClick={star}>
+            Star
+          </button>
+          {belongsToCurrentUser(currentUser, user) && (
+            <button className="delete" onClick={remove}>
+              Delete
+            </button>
+          )}
         </div>
       </div>
     </article>
@@ -43,14 +55,14 @@ const Post = (props) => {
 };
 
 Post.defaultProps = {
-  title: 'An Incredibly Hot Take',
+  title: "An Incredibly Hot Take",
   content:
-    'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus est aut dolorem, dolor voluptatem assumenda possimus officia blanditiis iusto porro eaque non ab autem nihil! Alias repudiandae itaque quo provident.',
+    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ducimus est aut dolorem, dolor voluptatem assumenda possimus officia blanditiis iusto porro eaque non ab autem nihil! Alias repudiandae itaque quo provident.",
   user: {
-    id: '123',
-    displayName: 'Bill Murray',
-    email: 'billmurray@mailinator.com',
-    photoURL: 'https://www.fillmurray.com/300/300',
+    id: "123",
+    displayName: "Bill Murray",
+    email: "billmurray@mailinator.com",
+    photoURL: "https://www.fillmurray.com/300/300",
   },
   createdAt: new Date(),
   stars: 0,

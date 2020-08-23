@@ -12,15 +12,7 @@ function App() {
   const unsubscribeFromFirestore = React.useRef(null)
   const unsubscribeFromAuth = React.useRef(null)
 
-  React.useEffect(() => {
-    // firestore
-    //   .collection("posts")
-    //   .get()
-    //   .then((snapshot) => {
-    //     const p = snapshot.docs.map(collectIdsAndDocs);
-    //     setPosts(p)
-
-    //   });
+useEffect(() => {
     unsubscribeFromFirestore.current = firestore.collection('posts')
       .onSnapshot(snapshot => {
         const p = snapshot.docs.map(collectIdsAndDocs);

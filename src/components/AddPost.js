@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { firestore, auth } from '../firebase';
-import CurrentUser from './CurrentUser';
 
 class AddPost extends Component {
   state = { title: '', content: '' };

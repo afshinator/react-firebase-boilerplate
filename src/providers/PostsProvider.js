@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, createContext } from "react";
 import { firestore } from "../firebase";
-import { collectIdsAndDocs } from "../utils/misc";
+import { collectIdsAndData } from './../utils/misc';
 
 export const PostsContext = createContext();
 
@@ -13,7 +13,7 @@ const PostsProvider = ({ children }) => {
     unsubscribeFromFirestore.current = firestore
       .collection("posts")
       .onSnapshot((snapshot) => {
-        const p = snapshot.docs.map(collectIdsAndDocs);
+        const p = snapshot.docs.map(collectIdsAndData);
         setPosts(p);
       });
 

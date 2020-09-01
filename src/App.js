@@ -6,6 +6,7 @@ import Authentication from "./components/Authentication";
 
 import { Switch, Route, Link } from "react-router-dom";
 import UserProfile from "./components/UserProfile";
+import PostPage from "./components/PostPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={Posts} />
         <Route exact path="/profile" component={UserProfile} />
+        <Route exact path="/posts/:id" component={PostPage} />
       </Switch>
       <Posts />
     </div>
